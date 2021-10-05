@@ -1,4 +1,4 @@
-package com.carlson.productService;
+package com.carlson.productservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

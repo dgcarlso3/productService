@@ -1,5 +1,6 @@
-package com.carlson.productService;
+package com.carlson.productservice;
 
+import com.carlson.productservice.webservices.WebServiceHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -20,12 +21,15 @@ public class ProductServiceTests {
     @MockBean
     ProductRepository productRepository;
 
+    @MockBean
+    WebServiceHelper webServiceHelper;
+
     @Spy
     private ProductService service;
 
     @BeforeEach
     public void beforeEach() {
-        service = new ProductService(productRepository);
+        service = new ProductService(productRepository, webServiceHelper);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.carlson.productService;
+package com.carlson.productservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +16,21 @@ public class ProductController {
     }
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewProduct (@RequestParam String name,
+    public String addNewProduct (@RequestParam String name,
                                                @RequestParam String description,
                                                @RequestParam String currency) {
         return productService.addNewProduct(name, description, currency);
     }
 
     @GetMapping(path="")
-    public @ResponseBody List<Product> getProductsById(@RequestParam List<Integer> ids) {
+    public List<Product> getProductsById(@RequestParam List<Integer> ids) {
         return productService.getProductsById(ids);
     }
+
+    @GetMapping(path="/categories/{name}")
+    public List<ProductCategory> getProductsForCategory(@PathVariable String name) {
+        return productService.getProductsByCategoryName(name);
+    }
+
+
 }

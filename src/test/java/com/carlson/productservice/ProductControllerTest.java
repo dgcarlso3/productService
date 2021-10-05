@@ -1,4 +1,4 @@
-package com.carlson.productService;
+package com.carlson.productservice;
 
 
 import org.junit.jupiter.api.Test;
@@ -91,5 +91,11 @@ public class ProductControllerTest {
                 .param("ids", "1")
                 .param("ids", "2"))
                 .andExpect(content().json("[{\"id\":1, \"name\":\"Foo\"}]}"));
+    }
+
+    @Test
+    public void getProductsForCategory_returnsOk() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/products/categories/foo"))
+                .andExpect(status().isOk());
     }
 }
