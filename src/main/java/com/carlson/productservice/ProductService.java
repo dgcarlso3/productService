@@ -49,10 +49,10 @@ public class ProductService {
 
     protected List<ProductCategory> buildProductCategoryList(List<Product> productsById, ProductCategory.Builder builder) {
         return productsById.stream().map(product -> {
-            builder.name(product.getName())
+            return builder.name(product.getName())
                     .currency(product.getCurrency())
-                    .description(product.getDescription());
-            return builder.build();
+                    .description(product.getDescription())
+                    .build();
         }).collect(Collectors.toList());
     }
 

@@ -98,4 +98,22 @@ public class ProductControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/products/categories/foo"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void getProductsForCategory_callsServiceWithName() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/products/categories/foo"));
+
+        Mockito.verify(productService).getProductsByCategoryName("foo");
+    }
+
+    @Test
+    public void getProductsForCategory_returnsResponseFromServiceLayer() throws Exception {
+        List<ProductCategory> expected = new ArrayList<>();
+        ProductCategory e = ProductCategory.builder().name("product").build();
+        expected.add(e);
+        Mockito.when(productService.getProductsByCategoryName("foo")).thenReturn(expected);
+
+        mvc.perform(MockMvcRequestBuilders.get("/products/categories/foo"))
+                .andExpect(content().json("[{\"name\":\"product\",\"description\":null,\"currency\":null,\"category\":null,\"subcategory\":null,\"url\":null}]"));
+    }
 }
