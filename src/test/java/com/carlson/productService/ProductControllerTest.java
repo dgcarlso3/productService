@@ -2,6 +2,7 @@ package com.carlson.productService;
 
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,8 +13,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @WebMvcTest(ProductController.class)
@@ -54,4 +58,38 @@ public class ProductControllerTest {
                 .andExpect(content().string(equalTo("Floof")));
     }
 
+    @Test
+    public void getProductsById_returnsOk() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/products")
+                        .param("ids", "1")
+                        .param("ids", "2"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getProductsById_callsServiceWithNameAndDescriptionAndCurrency() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/products")
+                .param("ids", "1")
+                .param("ids", "2"));
+
+        ArgumentCaptor<List<Integer>> captor = ArgumentCaptor.forClass(ArrayList.class);
+        Mockito.verify(productService).getProductsById(captor.capture());
+        List<Integer> allValues = captor.getValue();
+        assertThat(allValues, containsInAnyOrder(1,2));
+    }
+
+    @Test
+    public void getProductsById_returnsResponseFromServiceLayer() throws Exception {
+        List<Product> expected = new ArrayList<>();
+        Product e = new Product();
+        e.setId(1);
+        e.setName("Foo");
+        expected.add(e);
+        Mockito.when(productService.getProductsById(Mockito.anyList())).thenReturn(expected);
+
+        mvc.perform(MockMvcRequestBuilders.get("/products")
+                .param("ids", "1")
+                .param("ids", "2"))
+                .andExpect(content().json("[{\"id\":1, \"name\":\"Foo\"}]}"));
+    }
 }

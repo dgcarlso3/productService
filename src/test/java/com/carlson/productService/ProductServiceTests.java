@@ -8,7 +8,11 @@ import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 @SpringBootTest
 public class ProductServiceTests {
@@ -53,4 +57,26 @@ public class ProductServiceTests {
         assertEquals("the currency", result.getCurrency());
     }
 
+    @Test
+    public void getProductsById_callsSavesOnRepository() {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        service.getProductsById(ids);
+
+        Mockito.verify(productRepository).findByIdIn(ids);
+    }
+
+    @Test
+    public void getProductsById_returnsResultFromRepository() {
+        List<Product> expected = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        Mockito.when(productRepository.findByIdIn(ids)).thenReturn(expected);
+
+        List<Product> actual = service.getProductsById(ids);
+
+        assertSame(expected, actual);
+    }
 }

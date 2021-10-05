@@ -1,10 +1,11 @@
 package com.carlson.productService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping(path="/products")
 public class ProductController {
     private ProductService productService;
@@ -21,4 +22,8 @@ public class ProductController {
         return productService.addNewProduct(name, description, currency);
     }
 
+    @GetMapping(path="")
+    public @ResponseBody List<Product> getProductsById(@RequestParam List<Integer> ids) {
+        return productService.getProductsById(ids);
+    }
 }
