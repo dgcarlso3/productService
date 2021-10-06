@@ -1,5 +1,10 @@
-package com.carlson.productservice;
+package com.carlson.productservice.testdata;
 
+import com.carlson.productservice.InventoryTypeEnum;
+import com.carlson.productservice.media.Media;
+import com.carlson.productservice.media.MediaRepository;
+import com.carlson.productservice.sku.Sku;
+import com.carlson.productservice.sku.SkuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

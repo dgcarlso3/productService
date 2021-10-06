@@ -1,4 +1,6 @@
-package com.carlson.productservice;
+package com.carlson.productservice.sku;
+
+import com.carlson.productservice.InventoryTypeEnum;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

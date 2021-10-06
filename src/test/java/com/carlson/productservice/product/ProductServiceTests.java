@@ -1,5 +1,7 @@
-package com.carlson.productservice;
+package com.carlson.productservice.product;
 
+import com.carlson.productservice.media.Media;
+import com.carlson.productservice.sku.Sku;
 import com.carlson.productservice.webservices.CategoryProduct;
 import com.carlson.productservice.webservices.CategoryResponse;
 import com.carlson.productservice.webservices.ProductCategory;
@@ -162,6 +164,12 @@ public class ProductServiceTests {
         product.setName("name"+key);
         product.setCurrency("currency"+key);
         product.setDescription("description"+key);
+        Sku sku =  new Sku();
+        sku.setName("skuname"+key);
+        product.setSkus(List.of(sku));
+        Media media = new Media();
+        media.setURL("URL" + key);
+        product.setMedias(List.of(media));
         return product;
     }
 }

@@ -1,4 +1,4 @@
-package com.carlson.productservice;
+package com.carlson.productservice.product;
 
 import com.carlson.productservice.webservices.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,12 @@ public class ProductService {
     public List<ProductCategory> getProductsByCategoryName(String name) {
         CategoryResponse category = webServiceHelper.getCategory(name);
         ProductCategory.Builder builder = ProductCategory.builder();
-        builder.category(category.getParent().getName());
-        builder.subcategory(category.getName());
+        if (category.getParent() == null) {
+            builder.category(category.getName());
+        } else {
+            builder.category(category.getParent().getName());
+            builder.subcategory(category.getName());
+        }
 
         List<Integer> productIds = getProductIds(category);
         List<Product> productsById = getProductsById(productIds);

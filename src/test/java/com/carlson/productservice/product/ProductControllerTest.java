@@ -1,4 +1,4 @@
-package com.carlson.productservice;
+package com.carlson.productservice.product;
 
 
 import com.carlson.productservice.webservices.ProductCategory;

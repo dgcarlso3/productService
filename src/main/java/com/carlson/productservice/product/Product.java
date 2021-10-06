@@ -1,4 +1,7 @@
-package com.carlson.productservice;
+package com.carlson.productservice.product;
+
+import com.carlson.productservice.media.Media;
+import com.carlson.productservice.sku.Sku;
 
 import javax.persistence.*;
 import java.util.List;

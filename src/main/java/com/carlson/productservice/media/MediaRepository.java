@@ -1,4 +1,4 @@
-package com.carlson.productservice;
+package com.carlson.productservice.media;
 
 import org.springframework.data.repository.CrudRepository;
 
