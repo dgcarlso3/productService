@@ -20,8 +20,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -144,6 +143,17 @@ public class ProductServiceTests {
         List<Integer> productIds = service.getProductIds(response);
 
         assertThat(productIds, containsInAnyOrder(42, 4242, 424242));
+    }
+
+    @Test
+    public void productExists_callsExistsById() {
+        when(productRepository.existsById(42)).thenReturn(true);
+
+        assertTrue(service.productExists(42));
+
+        when(productRepository.existsById(42)).thenReturn(false);
+
+        assertFalse(service.productExists(42));
     }
 
     private void testProductCategory(List<ProductCategory> productCategories, int key) {

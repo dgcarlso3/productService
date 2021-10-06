@@ -33,4 +33,9 @@ public class ProductController {
         return productService.getProductsByCategoryName(name);
     }
 
+    @GetMapping(path="/{id}/exists")
+    public Boolean getProductExistsForId(@PathVariable Integer id) {
+        return productService.productExists(id);
+    }
+
 }

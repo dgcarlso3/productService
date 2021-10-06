@@ -117,4 +117,26 @@ public class ProductControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/products/categories/foo"))
                 .andExpect(content().json("[{\"name\":\"product\",\"description\":null,\"currency\":null,\"category\":null,\"subcategory\":null,\"url\":null}]"));
     }
+
+    @Test
+    public void getProductExistsForId_returnsOk() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/products/42/exists"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getProductExistsForId_callsServiceWithName() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/products/42/exists"));
+
+        Mockito.verify(productService).productExists(42);
+    }
+
+    @Test
+    public void getProductExistsForId_returnsResultFromService() throws Exception {
+        Mockito.when(productService.productExists(42)).thenReturn(false);
+        mvc.perform(MockMvcRequestBuilders.get("/products/42/exists")).andExpect(content().string("false"));
+
+        Mockito.when(productService.productExists(42)).thenReturn(true);
+        mvc.perform(MockMvcRequestBuilders.get("/products/42/exists")).andExpect(content().string("true"));
+    }
 }

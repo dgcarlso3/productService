@@ -33,6 +33,7 @@ public class ProductService {
 
     public List<ProductCategory> getProductsByCategoryName(String name) {
         CategoryResponse category = webServiceHelper.getCategory(name);
+
         ProductCategory.Builder builder = ProductCategory.builder();
         if (category.getParent() == null) {
             builder.category(category.getName());
@@ -88,4 +89,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public Boolean productExists(Integer id) {
+        return productRepository.existsById(id);
+    }
 }
