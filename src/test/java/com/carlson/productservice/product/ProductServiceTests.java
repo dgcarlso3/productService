@@ -97,10 +97,8 @@ public class ProductServiceTests {
     public void getProductsByCategoryName_callsGetCategory() {
         service = mock(ProductService.class);
         // Test: calls getCategory
-        CategoryProduct categoryProduct = new CategoryProduct();
-        categoryProduct.setProductId(42);
-        CategoryResponse expected = new CategoryResponse();
-        expected.setCategoryProducts(List.of(categoryProduct));
+        CategoryProduct categoryProduct = CategoryProduct.builder().productId(42).build();
+        CategoryResponse expected = CategoryResponse.builder().categoryProducts(List.of(categoryProduct)).build();
         when(webServiceHelper.getCategory("foo")).thenReturn(expected);
         // Test: gets Product Id list
         List<Integer> ids = new ArrayList<>();
@@ -136,15 +134,12 @@ public class ProductServiceTests {
 
     @Test
     public void getProductIds_returnsListOfProductIds() {
-        CategoryProduct categoryProduct = new CategoryProduct();
-        categoryProduct.setProductId(42);
-        CategoryProduct categoryProduct2 = new CategoryProduct();
-        categoryProduct2.setProductId(4242);
-        CategoryProduct categoryProduct3 = new CategoryProduct();
-        categoryProduct3.setProductId(424242);
-        List<CategoryProduct> categoryProducts = Lists.newArrayList(categoryProduct, categoryProduct2, categoryProduct3);
-        CategoryResponse response = new CategoryResponse();
-        response.setCategoryProducts(categoryProducts);
+        CategoryProduct categoryProduct = CategoryProduct.builder().productId(42).build();
+        CategoryProduct categoryProduct2 = CategoryProduct.builder().productId(4242).build();
+        CategoryProduct categoryProduct3 = CategoryProduct.builder().productId(424242).build();
+        CategoryResponse response = CategoryResponse.builder()
+                .categoryProducts(Lists.newArrayList(categoryProduct, categoryProduct2, categoryProduct3))
+                .build();
 
         List<Integer> productIds = service.getProductIds(response);
 

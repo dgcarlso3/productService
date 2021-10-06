@@ -1,8 +1,8 @@
 package com.carlson.productservice.webservices;
 
 public class WebMedia {
-    private String URL;
-    private String altText;
+    private final String URL;
+    private final String altText;
 
     private WebMedia(Builder builder) {
         this.URL = builder.URL;
