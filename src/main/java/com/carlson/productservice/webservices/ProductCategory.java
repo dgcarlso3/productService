@@ -1,4 +1,6 @@
-package com.carlson.productservice;
+package com.carlson.productservice.webservices;
+
+import java.util.List;
 
 public class ProductCategory {
     private final String name;
@@ -7,6 +9,8 @@ public class ProductCategory {
     private final String currency;
     private final String category;
     private final String subcategory;
+    private final List<WebSku> skus;
+    private final List<WebMedia> medias;
 
     public String getName() {
         return name;
@@ -32,6 +36,14 @@ public class ProductCategory {
         return subcategory;
     }
 
+    public List<WebSku> getSkus() {
+        return skus;
+    }
+
+    public List<WebMedia> getMedias() {
+        return medias;
+    }
+
     private ProductCategory(Builder builder) {
         this.name = builder.name;
         this.description = builder.description;
@@ -39,6 +51,8 @@ public class ProductCategory {
         this.currency = builder.currency;
         this.category = builder.category;
         this.subcategory = builder.subcategory;
+        this.skus = builder.skus;
+        this.medias = builder.medias;
     }
 
     public static ProductCategory.Builder builder() {
@@ -52,6 +66,8 @@ public class ProductCategory {
         private String currency;
         private String category;
         private String subcategory;
+        private List<WebSku> skus;
+        private List<WebMedia> medias;
 
         private Builder() {}
 
@@ -82,6 +98,16 @@ public class ProductCategory {
 
         public Builder subcategory(String subcategory) {
             this.subcategory = subcategory;
+            return this;
+        }
+
+        public Builder skus(List<WebSku> skus) {
+            this.skus = skus;
+            return this;
+        }
+
+        public Builder medias(List<WebMedia> medias) {
+            this.medias = medias;
             return this;
         }
 

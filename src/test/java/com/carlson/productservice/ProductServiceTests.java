@@ -2,6 +2,7 @@ package com.carlson.productservice;
 
 import com.carlson.productservice.webservices.CategoryProduct;
 import com.carlson.productservice.webservices.CategoryResponse;
+import com.carlson.productservice.webservices.ProductCategory;
 import com.carlson.productservice.webservices.WebServiceHelper;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;

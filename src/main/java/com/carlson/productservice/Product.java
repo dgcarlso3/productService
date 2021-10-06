@@ -1,6 +1,7 @@
 package com.carlson.productservice;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -11,6 +12,12 @@ public class Product {
     private String name;
     private String description;
     private String currency;
+    @OneToMany
+    @JoinColumn(name="productid")
+    private List<Sku> skus;
+    @OneToMany
+    @JoinColumn(name="productid")
+    private List<Media> medias;
 
     public Integer getId() {
         return id;
@@ -52,4 +59,19 @@ public class Product {
         this.currency = currency;
     }
 
+    public List<Sku> getSkus() {
+        return skus;
+    }
+
+    public void setSkus(List<Sku> skus) {
+        this.skus = skus;
+    }
+
+    public List<Media> getMedias() {
+        return medias;
+    }
+
+    public void setMedias(List<Media> medias) {
+        this.medias = medias;
+    }
 }

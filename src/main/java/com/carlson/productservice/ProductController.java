@@ -1,5 +1,6 @@
 package com.carlson.productservice;
 
+import com.carlson.productservice.webservices.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,5 @@ public class ProductController {
     public List<ProductCategory> getProductsForCategory(@PathVariable String name) {
         return productService.getProductsByCategoryName(name);
     }
-
 
 }

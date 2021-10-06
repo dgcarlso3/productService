@@ -1,7 +1,6 @@
 package com.carlson.productservice;
 
-import com.carlson.productservice.webservices.CategoryResponse;
-import com.carlson.productservice.webservices.WebServiceHelper;
+import com.carlson.productservice.webservices.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,8 @@ public class ProductService {
     private ProductRepository productRepository;
     private WebServiceHelper webServiceHelper;
 
-    public ProductService() {}
+    public ProductService() {
+    }
 
     @Autowired
     public ProductService(ProductRepository productRepository, WebServiceHelper webServiceHelper) {
@@ -22,7 +22,7 @@ public class ProductService {
         this.webServiceHelper = webServiceHelper;
     }
 
-    public String addNewProduct (String name, String description, String currency) {
+    public String addNewProduct(String name, String description, String currency) {
         Product product = new Product();
         product.setName(name);
         product.setDescription(description);
@@ -52,6 +52,26 @@ public class ProductService {
             return builder.name(product.getName())
                     .currency(product.getCurrency())
                     .description(product.getDescription())
+                    .skus(getWebSkus(product))
+                    .medias(getWebMedias(product))
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    private List<WebMedia> getWebMedias(Product product) {
+        return product.getMedias().stream().map(media -> {
+            return WebMedia.builder().altText(media.getAltText()).URL(media.getURL()).build();
+        }).collect(Collectors.toList());
+    }
+
+    private List<WebSku> getWebSkus(Product product) {
+        return product.getSkus().stream().map(sku -> {
+            return WebSku.builder().name(sku.getName())
+                    .inventoryType(sku.getInventoryType())
+                    .salePrice(sku.getSalePrice())
+                    .retailPrice(sku.getRetailPrice())
+                    .quantityAvailable(sku.getQuantityAvailable())
+                    .description(sku.getDescription())
                     .build();
         }).collect(Collectors.toList());
     }
