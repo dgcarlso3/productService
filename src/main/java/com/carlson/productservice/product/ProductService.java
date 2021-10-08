@@ -31,7 +31,7 @@ public class ProductService {
         return "Saved";
     }
 
-    public List<ProductCategory> getProductsByCategoryName(String name) {
+    public ProductCategories getProductsByCategoryName(String name) {
         CategoryResponse category = webServiceHelper.getCategory(name);
 
         ProductCategory.Builder builder = ProductCategory.builder();
@@ -45,7 +45,13 @@ public class ProductService {
         List<Integer> productIds = getProductIds(category);
         List<Product> productsById = getProductsById(productIds);
 
-        return buildProductCategoryList(productsById, builder);
+        List<ProductCategory> productCategoryList = buildProductCategoryList(productsById, builder);
+
+        ProductCategories build = ProductCategories.builder()
+                .totalCount(productCategoryList.size())
+                .productCategories(productCategoryList)
+                .build();
+        return build;
     }
 
     public List<Product> getProductsById(List<Integer> ids) {

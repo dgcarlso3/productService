@@ -2,10 +2,7 @@ package com.carlson.productservice.product;
 
 import com.carlson.productservice.media.Media;
 import com.carlson.productservice.sku.Sku;
-import com.carlson.productservice.webservices.CategoryProduct;
-import com.carlson.productservice.webservices.CategoryResponse;
-import com.carlson.productservice.webservices.ProductCategory;
-import com.carlson.productservice.webservices.WebServiceHelper;
+import com.carlson.productservice.webservices.*;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +18,8 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ProductServiceTests {
@@ -94,25 +92,22 @@ public class ProductServiceTests {
 
     @Test
     public void getProductsByCategoryName_callsGetCategory() {
-        service = mock(ProductService.class);
-        // Test: calls getCategory
         CategoryProduct categoryProduct = CategoryProduct.builder().productId(42).build();
         CategoryResponse expected = CategoryResponse.builder().categoryProducts(List.of(categoryProduct)).build();
         when(webServiceHelper.getCategory("foo")).thenReturn(expected);
-        // Test: gets Product Id list
-        List<Integer> ids = new ArrayList<>();
-        when(service.getProductIds(expected)).thenReturn(ids);
-        // Test: gets Products by id list
         List<Product> products = new ArrayList<>();
-        when(service.getProductsById(ids)).thenReturn(products);
-        // Test: returns
-        List<ProductCategory> productCategories = new ArrayList<>();
-        when(service.buildProductCategoryList(eq(products), Mockito.any())).thenReturn(productCategories);
+        products.add(getProduct(1));
+        products.add(getProduct(2));
+        when(productRepository.findByIdIn(anyList())).thenReturn(products);
 
-        List<ProductCategory> actual = service.getProductsByCategoryName("foo");
+        ProductCategories actual = service.getProductsByCategoryName("foo");
 
-        assertThat(actual, is(productCategories));
-
+        assertEquals(actual.getProductCategories().size(), 2);
+        assertThat(actual.getProductCategories(), containsInAnyOrder(
+                hasProperty("name", is("name1")),
+                hasProperty("name", is("name2"))
+        ));
+        assertThat(actual.getTotalCount(), is(actual.getProductCategories().size()));
     }
 
     @Test

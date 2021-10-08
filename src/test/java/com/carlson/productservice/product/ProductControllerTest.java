@@ -1,6 +1,7 @@
 package com.carlson.productservice.product;
 
 
+import com.carlson.productservice.webservices.ProductCategories;
 import com.carlson.productservice.webservices.ProductCategory;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -109,13 +110,14 @@ public class ProductControllerTest {
 
     @Test
     public void getProductsForCategory_returnsResponseFromServiceLayer() throws Exception {
-        List<ProductCategory> expected = new ArrayList<>();
+        List<ProductCategory> productCategoryList = new ArrayList<>();
         ProductCategory e = ProductCategory.builder().name("product").build();
-        expected.add(e);
+        productCategoryList.add(e);
+        ProductCategories expected = ProductCategories.builder().totalCount(1).productCategories(productCategoryList).build();
         Mockito.when(productService.getProductsByCategoryName("foo")).thenReturn(expected);
 
         mvc.perform(MockMvcRequestBuilders.get("/products/categories/foo"))
-                .andExpect(content().json("[{\"name\":\"product\",\"description\":null,\"currency\":null,\"category\":null,\"subcategory\":null,\"url\":null}]"));
+                .andExpect(content().json("{\"totalCount\":1,\"productCategories\":[{\"name\":\"product\",\"description\":null,\"currency\":null,\"category\":null,\"subcategory\":null,\"skus\":null,\"medias\":null,\"url\":null}]}"));
     }
 
     @Test

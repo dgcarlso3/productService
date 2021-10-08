@@ -1,6 +1,6 @@
 package com.carlson.productservice.product;
 
-import com.carlson.productservice.webservices.ProductCategory;
+import com.carlson.productservice.webservices.ProductCategories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping(path="/categories/{name}")
-    public List<ProductCategory> getProductsForCategory(@PathVariable String name) {
+    public ProductCategories getProductsForCategory(@PathVariable String name) {
         return productService.getProductsByCategoryName(name);
     }
 
